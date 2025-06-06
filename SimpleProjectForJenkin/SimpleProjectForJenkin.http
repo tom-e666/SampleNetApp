@@ -1,0 +1,6 @@
+@SimpleProjectForJenkin_HostAddress = http://localhost:5062
+
+GET {{SimpleProjectForJenkin_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
