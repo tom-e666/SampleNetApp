@@ -1,0 +1,42 @@
+pipeline 
+{
+    agent any
+    stages{
+        stage('checkout source')
+        {
+            steps{
+                git url:'https://github.com/tom-e666/SampleNetApp.git',
+                 branch: 'main'
+            }
+        } 
+        stage ('dependencies')
+        {
+            steps{
+                dir('SimpleProjectForJenkin') {
+                    sh 'dotnet restore'
+                }
+            }
+        }
+        stage ('build')
+        {
+            steps{
+                dir('SimpleProjectForJenkin') {
+                    sh 'dotnet build --configuration Release'
+                }
+            }
+        }
+        stage ('publish')
+        {
+                dir('SimpleProjectForJenkin') {
+                    sh 'dotnet publish --configuration Release -o ./publish'
+                    archiveArtifacts artifacts: 'publish/**', fingerprint: true
+                }
+        }
+
+    }
+    post {
+        always {
+            echo 'luon chay'
+        }
+    }
+}
